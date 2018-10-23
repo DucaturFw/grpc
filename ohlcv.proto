@@ -1,0 +1,47 @@
+syntax = "proto3";
+package l2.ohlcv;
+
+service OHLCV {
+    rpc Bars (BarsRequest) returns (BarsResponse) {}
+}
+
+enum Interval {
+    MINUTE_1 = 1;
+    MINUTE_3 = 2;
+    MINUTE_5 = 3;
+    MINUTE_15 = 4;
+    MINUTE_30 = 5;
+    HOUR_1 = 6;
+    HOUR_2 = 7;
+    HOUR_4 = 8;
+    HOUR_6 = 9;
+    HOUR_8 = 10;
+    HOUR_12 = 11;
+    DAY_1 = 12;
+    DAY_3 = 13;
+    WEEK_1 = 14;
+    MONTH_1 = 15;
+}
+
+message BarsRequest {
+    string symbol = 1;
+    Interval interval = 2;
+    int64 from = 3;         // In milliseconds
+    int64 to = 4;           // In milliseconds
+    int32 limit = 5;        // Max is 4000
+}
+
+message Bar {
+    int64 time = 1;         // In milliseconds
+    string open = 2;
+    string high = 3;
+    string low = 4;
+    string close = 5;
+    string volume = 6;
+    string quote_volume = 7;
+    string count = 8;
+}
+
+message BarsResponse {
+    repeated Bar bars = 1;
+}
